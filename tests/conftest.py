@@ -1,7 +1,7 @@
 # conftest.py
 
 from builtins import range
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import AsyncMock
 from uuid import uuid4
 
@@ -18,6 +18,7 @@ from app.dependencies import get_db, get_settings
 from app.utils.security import hash_password
 from app.utils.template_manager import TemplateManager
 from app.services.email_service import EmailService
+from app.services.jwt_service import create_access_token
 
 fake = Faker()
 settings = get_settings()
@@ -170,6 +171,7 @@ async def admin_user(db_session: AsyncSession):
         hashed_password=hash_password("securepassword"),
         role=UserRole.ADMIN,
         is_locked=False,
+        email_verified=True
     )
     db_session.add(user)
     await db_session.commit()
@@ -185,10 +187,24 @@ async def manager_user(db_session: AsyncSession):
         hashed_password=hash_password("securepassword"),
         role=UserRole.MANAGER,
         is_locked=False,
+        email_verified=True
     )
     db_session.add(user)
     await db_session.commit()
     return user
+
+# Token fixtures
+@pytest.fixture
+def user_token(user):
+    return create_access_token(data={"sub": user.email, "role": user.role.name})
+
+@pytest.fixture
+def admin_token(admin_user):
+    return create_access_token(data={"sub": admin_user.email, "role": admin_user.role.name})
+
+@pytest.fixture
+def manager_token(manager_user):
+    return create_access_token(data={"sub": manager_user.email, "role": manager_user.role.name})
 
 # Schema test data fixtures
 @pytest.fixture
@@ -199,6 +215,19 @@ def user_base_data():
         "first_name": "John",
         "last_name": "Doe",
         "bio": "Experienced backend engineer",
+        "profile_picture_url": "https://example.com/profile.jpg",
+        "linkedin_profile_url": "https://linkedin.com/in/johndoe",
+        "github_profile_url": "https://github.com/johndoe"
+    }
+
+@pytest.fixture
+def user_base_data_invalid():
+    return {
+        "email": "john.doe.example.com",
+        "nickname": "john_doe_invalid",
+        "first_name": "John",
+        "last_name": "Doe",
+        "bio": "Backend engineer",
         "profile_picture_url": "https://example.com/profile.jpg",
         "linkedin_profile_url": "https://linkedin.com/in/johndoe",
         "github_profile_url": "https://github.com/johndoe"
