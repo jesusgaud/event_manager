@@ -142,7 +142,6 @@ Updated `create_access_token` in `jwt_service.py` to accept `data: dict` and `ex
 def create_access_token(*, data: dict, expires_delta: timedelta = None) -> str:
 ```
 
-```markdown
 ### 🐛 Bug: `verify_email()` sets column, not a value
 
 **Description:**
@@ -156,7 +155,6 @@ def verify_email(self):
     self.email_verified = True
 ```
 
-```markdown
 ### 🔧 Enhancement: Add `user_token` fixture for authenticated user tests
 
 **Description:**
@@ -171,7 +169,6 @@ def user_token(user):
     return create_access_token(data={"sub": user.email, "role": str(user.role.name)})
 ```
 
-```markdown
 ### 🧪 Test Coverage: Add validation for email_verified default state
 
 **Description:**
@@ -184,7 +181,6 @@ Added explicit assertion in `test_email_verification` test:
 assert not user.email_verified
 ```
 
-```markdown
 ### 🔧 Enhancement: Add `user_base_data_invalid` fixture for schema validation
 
 **Description:**
