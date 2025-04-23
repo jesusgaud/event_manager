@@ -198,3 +198,13 @@ def user_base_data_invalid():
     }
 ```
 
+## 📦 DockerHub
+<img width="940" alt="image" src="https://github.com/user-attachments/assets/fb95800d-bd9a-4a49-8736-8631c3f30002" />
+
+## My Thoughts for the Project
+
+Over the course of this assignment, I strengthened my skills in API security, testing, and containerized deployment. One of the key technical challenges was implementing role-based access control (RBAC) using JWT, while ensuring access permissions were enforced at every route. I had to balance between security and user experience while navigating FastAPI's dependency injection and asynchronous ORM sessions.
+
+Another important takeaway was the collaborative Git workflow. Managing issues, creating branches, submitting pull requests, and reviewing peer feedback helped simulate a real-world development process. I learned the importance of well-written tests in catching regression bugs and how to debug failed test cases under CI environments.
+
+Going forward, I plan to expand this project with CI/CD pipeline enhancements, email notifications using background tasks, and external provider authentication like Google OAuth. This assignment solidified both my backend development skills and collaborative engineering discipline.
